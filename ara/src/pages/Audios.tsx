@@ -1,4 +1,4 @@
-import { Card, Group, Input, Text } from "@mantine/core"
+import { Card, Group, Input, Text, Button } from "@mantine/core";
 import { useEffect, useState, useMemo } from "react";
 
 interface AudioItem {
@@ -10,6 +10,7 @@ interface AudioItem {
 const Audios = () => {
   const [audios, setAudios] = useState<AudioItem[]>([]);
   const [input, setInput] = useState("");
+  const [visibleCount, setVisibleCount] = useState(20);
 
   useEffect(() => {
     fetch("/audios.json")
@@ -24,24 +25,26 @@ const Audios = () => {
     );
   }, [input, audios]);
 
+  const visiblePosts = filteredPost.slice(0, visibleCount);
+
   return (
-    <div>
-       <div className="flex flex-col items-center gap-4 mt-6 w-full">
-      <div>
-        <Input
+    <div className="flex flex-col items-center gap-4 mt-6 w-full">
+      <Input
         variant="filled"
         size="md"
-        onChange={(e) => setInput(e.target.value)}
+        onChange={(e) => {
+          setInput(e.target.value);
+          setVisibleCount(20); 
+        }}
         value={input}
         radius="md"
         placeholder="Mashq raqamini kiriting!"
         className="w-[90%] md:w-[60%]"
       />
-      </div>
 
-      <div className="">
-        {filteredPost.length > 0 ? (
-          filteredPost.map((item) => (
+      <div className="flex flex-col gap-4 w-full items-center">
+        {visiblePosts.length > 0 ? (
+          visiblePosts.map((item) => (
             <Card
               key={item.id}
               shadow="sm"
@@ -50,7 +53,9 @@ const Audios = () => {
               className="w-[90%] md:w-[60%]"
             >
               <Group justify="space-between" mb="sm">
-                <Text fw={500}>{item.title}-mashq ({item.title}-تمرين)</Text>
+                <Text fw={500}>
+                  {item.title}-mashq ({item.title}-تمرين)
+                </Text>
               </Group>
 
               <audio
@@ -65,12 +70,19 @@ const Audios = () => {
           ))
         ) : (
           <Text c="dimmed" ta="center">
-            Hech narsa topilmadi 😥
-            (لم يتم العثور على شيء 😥)
+            Hech narsa topilmadi 😥 (لم يتم العثور على شيء 😥)
           </Text>
         )}
+
+        {visibleCount < filteredPost.length && (
+          <Button
+            variant="light"
+            onClick={() => setVisibleCount((prev) => prev + 20)}
+          >
+            Ko'proq ko'rsatish
+          </Button>
+        )}
       </div>
-    </div>
     </div>
   );
 };

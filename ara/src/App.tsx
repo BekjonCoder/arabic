@@ -13,6 +13,7 @@ import {
   Stack,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import Tests from "./pages/Tests";
 
 function App() {
   const [opened, { toggle, close }] = useDisclosure();
@@ -53,6 +54,16 @@ function App() {
           >
             🎧 Audiolar
           </Button>
+          <Button
+            component={Link}
+            to="/tests"
+            onClick={close}
+            color="yellow"
+            variant="filled"
+            radius="md"
+          >
+            🧪 Testlar
+          </Button>
         </Stack>
       </AppShellNavbar>
 
@@ -60,6 +71,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/audios" element={<AudioPage />} />
+          <Route path="tests" element={<Tests/>}/>
         </Routes>
       </AppShellMain>
     </AppShell>
