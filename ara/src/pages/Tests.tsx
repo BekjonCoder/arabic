@@ -25,7 +25,7 @@ const Tests = () => {
 
   const handleClick = (levelName: string) => {
     localStorage.setItem('Name', levelName);
-    navigate(`/test/${levelName}`); // redirect o‘rniga navigate ishlatildi
+    navigate(`/test/${levelName}`);
   };
 
   return (
