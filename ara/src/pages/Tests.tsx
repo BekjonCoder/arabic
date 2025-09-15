@@ -1,5 +1,6 @@
 import { Button, Stack } from '@mantine/core';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface TestItem {
   quiz: string;
@@ -14,23 +15,27 @@ interface Levels {
 
 const Tests = () => {
   const [levels, setLevels] = useState<Levels>({});
+  const navigate = useNavigate(); // useNavigate hook
 
   useEffect(() => {
     fetch("/questions.json")
       .then((res) => res.json())
-      .then((data) => {
-        setLevels(data);
-      });
+      .then((data) => setLevels(data));
   }, []);
+
   const handleClick = (levelName: string) => {
-  localStorage.setItem('Name',levelName)
-  
-};
+    localStorage.setItem('Name', levelName);
+    navigate(`/test/${levelName}`); // redirect o‘rniga navigate ishlatildi
+  };
 
   return (
     <Stack>
       {Object.keys(levels).map((levelName) => (
-        <Button onClick={()=>handleClick(levelName)} key={levelName} fullWidth>
+        <Button
+          key={levelName}
+          fullWidth
+          onClick={() => handleClick(levelName)}
+        >
           {levelName}
         </Button>
       ))}

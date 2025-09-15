@@ -14,6 +14,7 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import Tests from "./pages/Tests";
+import LandingTest from "./pages/LandingTest";
 
 function App() {
   const [opened, { toggle, close }] = useDisclosure();
@@ -72,6 +73,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/audios" element={<AudioPage />} />
           <Route path="tests" element={<Tests/>}/>
+          <Route path="test/:name" element={<LandingTest/>}/>
         </Routes>
       </AppShellMain>
     </AppShell>
