@@ -15,7 +15,7 @@ interface Levels {
 
 const Tests = () => {
   const [levels, setLevels] = useState<Levels>({});
-  const navigate = useNavigate(); // useNavigate hook
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("/questions.json")
