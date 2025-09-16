@@ -42,7 +42,7 @@ function App() {
             variant="filled"
             radius="md"
           >
-            🏠 Bosh sahifa
+            🏠الصفحة الرئيسية (Bosh sahifa)
           </Button>
 
           <Button
@@ -53,7 +53,7 @@ function App() {
             variant="filled"
             radius="md"
           >
-            🎧 Audiolar
+            🎧الصوتيات (Audio)
           </Button>
           <Button
             component={Link}
@@ -63,7 +63,7 @@ function App() {
             variant="filled"
             radius="md"
           >
-            🧪 Testlar
+            🧪الاختبارات (Testlar)
           </Button>
         </Stack>
       </AppShellNavbar>

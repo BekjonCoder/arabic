@@ -38,7 +38,7 @@ const Audios = () => {
         }}
         value={input}
         radius="md"
-        placeholder="Mashq raqamini kiriting!"
+        placeholder="!ابحث باسم التمرين  (Mashq nomi bo'yicha qidiring!)"
         className="w-[90%] md:w-[60%]"
       />
 
@@ -54,7 +54,7 @@ const Audios = () => {
             >
               <Group justify="space-between" mb="sm">
                 <Text fw={500}>
-                  {item.title}-mashq ({item.title}-تمرين)
+                  {item.title}-تمرين  ( {item.title}-mashq)
                 </Text>
               </Group>
 
@@ -70,7 +70,7 @@ const Audios = () => {
           ))
         ) : (
           <Text c="dimmed" ta="center">
-            Hech narsa topilmadi 😥 (لم يتم العثور على شيء 😥)
+            لم يتم العثور على شيء 😥  (Hech narsa topilmadi 😥)
           </Text>
         )}
 
