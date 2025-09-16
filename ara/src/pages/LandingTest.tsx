@@ -64,7 +64,7 @@ const LandingTest = () => {
     return (
       <Center h="100vh">
         <Text size="lg" fw={500}>
-          Loading...
+          Yuklanmoqda...
         </Text>
       </Center>
     );
@@ -72,7 +72,7 @@ const LandingTest = () => {
 
   if (finished) {
     return (
-      <Center h="100vh">
+      <Center>
         <Card shadow="xl" p="xl" radius="lg" withBorder maw={500} w="100%">
           <Stack align="center" >
             <Title order={2}>🎉 Test tugadi!</Title>
@@ -84,7 +84,7 @@ const LandingTest = () => {
               variant="outline"
               size="md"
             >
-              Orqaga qaytish
+              Yana test yechish
             </Button>
             </Link>
           </Stack>
@@ -97,7 +97,7 @@ const LandingTest = () => {
   const progress = ((current + 1) / questions.length) * 100;
 
   return (
-    <Center h="100vh">
+    <Center h="80vh">
       <Card shadow="xl" p="xl" radius="lg" withBorder maw={600} w="100%">
         <Stack>
           <Stack >
