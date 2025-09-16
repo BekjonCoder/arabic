@@ -3,11 +3,9 @@ import {
   Button,
   Card,
   Progress,
-  Radio,
   Stack,
   Text,
   Title,
-  Group,
   Center,
 } from "@mantine/core";
 import { Link } from "react-router-dom";
@@ -25,6 +23,7 @@ const LandingTest = () => {
   const [selected, setSelected] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+  const [answered, setAnswered] = useState(false);
 
   useEffect(() => {
     const levelName = localStorage.getItem("Name");
@@ -38,25 +37,30 @@ const LandingTest = () => {
       });
   }, []);
 
-  const handleNext = () => {
-    if (selected) {
-      if (selected === questions[current].answer) {
-        setScore((prev) => prev + 1);
-      }
-      setSelected(null);
+  const handleAnswer = (value: string) => {
+    if (answered) return;
+    setSelected(value);
+    setAnswered(true);
 
-      if (current + 1 < questions.length) {
-        setCurrent((prev) => prev + 1);
-      } else {
-        setFinished(true);
-      }
+    if (value === questions[current].answer) {
+      setScore((prev) => prev + 1);
+      new Audio("/correct.mp3").play();
+    } else {
+      new Audio("/wrong.mp3").play();
     }
+
+    setTimeout(() => {
+      handleNext();
+    }, 2000);
   };
 
-  const handleBack = () => {
-    if (current > 0) {
-      setCurrent((prev) => prev - 1);
+  const handleNext = () => {
+    if (current + 1 < questions.length) {
+      setCurrent((prev) => prev + 1);
       setSelected(null);
+      setAnswered(false);
+    } else {
+      setFinished(true);
     }
   };
 
@@ -74,18 +78,16 @@ const LandingTest = () => {
     return (
       <Center>
         <Card shadow="xl" p="xl" radius="lg" withBorder maw={500} w="100%">
-          <Stack align="center" >
+          <Stack align="center">
             <Title order={2}>🎉 Test tugadi!</Title>
             <Text size="xl" fw={600}>
-              Siz {questions.length} dan {score} ta topa oldingiz!
+              Siz {score} ta to‘g‘ri javob berdingiz (
+              {Math.round((score / questions.length) * 100)}%)
             </Text>
-            <Link to={'/tests'}>
-            <Button
-              variant="outline"
-              size="md"
-            >
-              Yana test yechish
-            </Button>
+            <Link to={"/tests"}>
+              <Button variant="outline" size="md">
+                Yana test yechish
+              </Button>
             </Link>
           </Stack>
         </Card>
@@ -100,7 +102,7 @@ const LandingTest = () => {
     <Center h="80vh">
       <Card shadow="xl" p="xl" radius="lg" withBorder maw={600} w="100%">
         <Stack>
-          <Stack >
+          <Stack>
             <Title order={3}>
               Savol {current + 1} / {questions.length}
             </Title>
@@ -111,38 +113,42 @@ const LandingTest = () => {
             {question.quiz}
           </Text>
 
-          <Radio.Group
-            value={selected}
-            onChange={setSelected}
-            name={`q-${question.id}`}
-          >
-            <Stack>
-              {question.variant.map((v) => (
-                <Radio
-                  key={v}
-                  value={v}
-                  label={v}
-                  size="md"
-                  radius="md"
-                  color="blue"
-                />
-              ))}
-            </Stack>
-          </Radio.Group>
+          <Stack mt="sm">
+            {question.variant.map((v) => {
+              let color: string | undefined = "gray";
+              let variant: "outline" | "filled" = "outline";
 
-          <Group grow mt="lg">
-            <Button
-              variant="outline"
-              color="gray"
-              onClick={handleBack}
-              disabled={current === 0}
-            >
-              Orqaga
-            </Button>
-            <Button onClick={handleNext} disabled={!selected}>
-              {current + 1 === questions.length ? "Tugatish" : "Keyingi"}
-            </Button>
-          </Group>
+              if (answered) {
+                if (v === question.answer) {
+                  if (v === selected) {
+                    color = "green";
+                    variant = "filled";
+                  } else {
+                    color = "green";
+                    variant = "outline";
+                  }
+                } else if (v === selected) {
+                  color = "red";
+                  variant = "outline";
+                }
+              }
+
+              return (
+                <Button
+                  key={v}
+                  onClick={() => handleAnswer(v)}
+                  color={color}
+                  variant={variant}
+                  radius="md"
+                  size="lg"
+                  fullWidth
+                  style={{ fontSize: "16px", padding: "14px" }}
+                >
+                  {v}
+                </Button>
+              );
+            })}
+          </Stack>
         </Stack>
       </Card>
     </Center>
