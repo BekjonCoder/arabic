@@ -77,7 +77,7 @@ const LandingTest = () => {
           <Stack align="center" >
             <Title order={2}>🎉 Test tugadi!</Title>
             <Text size="xl" fw={600}>
-              Sizning natijangiz: {score} / {questions.length}
+              Siz {questions.length} dan {score} ta topa oldingiz!
             </Text>
             <Link to={'/tests'}>
             <Button
